@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <style>
+        #my-form{
+            text-align: center;
+            background-color:coral;
+            color: blueviolet;
+        }
+        body{
+            background-color:khaki;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container">
+            <a href="#" class="navbar-brand">Expense Tracker</a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-label="Expand Navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" aria-current="=page">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Store</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <div id="main" class="container">
+        <form id="my-form" class="form-control-plaintext">
+            <div class="form-floatin0g">
+                <label for="amount">Choose Expense amount: </label><br>
+                <input type="number" class="mr-2 mt-2 mb-2" id="amount" name="amount" placeholder="Amount in ₹"><br>
+            </div> 
+            <div class="form-floating">
+                <label for="description">Choose description: </label><br>
+                <input type="text" class="mr-2 mt-2 mb-2" id="description" name="description" placeholder="Describe"><br>
+            </div>
+            <div class="form-floating">
+                <label for="category">Choose a category: </label><br>
+                <select id="category" name="category" class="mr-2 mt-2 mb-2">
+                    <option>Fuel</option>
+                    <option>Food</option>
+                    <option>Movie</option>
+                    <option>Electricity</option>
+                </select><br>
+            </div>
+            
+            <button class="btn btn-info mt-2">Add Expenses</button>
+        </form>
+        
+    </div>
+
+    <div id="dataList">
+        <ul id="dataItems"></ul>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
