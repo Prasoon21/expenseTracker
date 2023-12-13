@@ -40,7 +40,7 @@
         </div>
     </nav>
     <div id="main" class="container">
-        <form id="my-form" class="form-control-plaintext">
+        <form id="my-form" class="form-control-plaintext" action="http://localhost:2000/expense" method="post" onsubmit="addUsers(event)">
             <div class="form-floatin0g">
                 <label for="amount">Choose Expense amount: </label><br>
                 <input type="number" class="mr-2 mt-2 mb-2" id="amount" name="amount" placeholder="Amount in ₹"><br>
@@ -67,7 +67,7 @@
     <div id="dataList">
         <ul id="dataItems"></ul>
     </div>
-    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./script.js"></script>
 </body>
 </html>

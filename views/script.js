@@ -1,10 +1,4 @@
-// var form = document.getElementById('my-form');
-
-// form.addEventListener('submit', addExpenses);
-
-
-
-async function addExpenses(e){
+async function addUsers(e){
     try{
         e.preventDefault();
 
@@ -60,7 +54,7 @@ function showUserOnScreen(user){
 
     const childNode=`<li id=${user.id}>${user.amount}-${user.description}-${user.category}
                         <button onclick=deleteUser('${user.id}')>Delete</button>
-                        <button onclick=editUserDetail('${user.amount}','${user.description}','${user.category}','${user.id}')>Edit</button></li>`
+                        <button onclick=editUserDetail('${user.amount}','${user.description}','${user.category}','${user.id}')>Edit</button></li>`;
 
     parentNode.innerHTML=parentNode.innerHTML+childNode;
     
@@ -93,6 +87,20 @@ function removeFromScreen(id)
     const childNodeDeleted=document.getElementById(id);
 
     parent.removeChild(childNodeDeleted)
+}
+
+async function editUserDetail(userAmount, userDesc, userCategory, userId){
+    try{
+        await axios.delete(`http://localhost:2000/expense/${userId}`);
+        removeFromScreen(userId);
+
+        document.getElementById('expenseid').value = userAmount;
+        document.getElementById('desid').value = userDesc;
+        document.getElementById('listid').value = userCategory;
+    } catch(err) {
+        document.body.innerHTML += "<h4>Something went wrong</h4>";
+        console.log(err);
+    }
 }
 
 

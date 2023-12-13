@@ -17,17 +17,18 @@ exports.addExpense= async (req,res,next)=>
 
 
     {
+        console.log("Received POST request for adding user:", req.body);
         if(!req.body.amount||!req.body.description||!req.body.category)
         {
+            //console.log(req.body.amount);
             console.log('missing req fields');
             return res.sendStatus(500)
         }
 
 
         try {
-        const amount=req.body.amount;
-        const description=req.body.description;
-        const category=req.body.category;
+            const {amount, description, category} = req.body;
+        
         
         console.log(amount,description,category);
     
