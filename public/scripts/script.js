@@ -1,6 +1,6 @@
-async function addUsers(e){
+async function addUsers(event){
     try{
-        e.preventDefault();
+        event.preventDefault();
 
         const amount = document.getElementById('expenseid').value;
         const description = document.getElementById('desid').value;
@@ -19,6 +19,7 @@ async function addUsers(e){
         const res = await axios.post('http://localhost:2000/expense', expense);
         console.log(res.data);
         showUserOnScreen(res.data);
+
         document.getElementById('expenseid').value = '';
         document.getElementById('desid').value = '';
         document.getElementById('listid').value = '';
@@ -34,12 +35,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     try{
         const res =await axios.get('http://localhost:2000/expense');
      
-        console.log(res.data[0]);
+        console.log(res.data);
 
         for(let i=0;i<res.data.length;i++)
         {
             showUserOnScreen(res.data[i]);
-            console.log('reached');
+            console.log('reached', res.data[i]);
 
      }
     } catch (error){
@@ -54,9 +55,9 @@ function showUserOnScreen(user){
 
     const childNode=`<li id=${user.id}>${user.amount}-${user.description}-${user.category}
                         <button onclick=deleteUser('${user.id}')>Delete</button>
-                        <button onclick=editUserDetail('${user.amount}','${user.description}','${user.category}','${user.id}')>Edit</button></li>`;
+                        <button onclick=editUserDetail('${user.amount}','${user.description}','${user.category}','${user.id}')>Edit</button>`;
 
-    parentNode.innerHTML=parentNode.innerHTML+childNode;
+    parentNode.innerHTML = parentNode.innerHTML + childNode;
     
 }
 

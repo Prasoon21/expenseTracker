@@ -18,40 +18,20 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-light">
-        <div class="container">
-            <a href="#" class="navbar-brand">Expense Tracker</a>
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-label="Expand Navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="nav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active" aria-current="=page">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Store</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">About</a>
-                </li>
-            </ul>
-        </div>
-        </div>
-    </nav>
     <div id="main" class="container">
-        <form id="my-form" class="form-control-plaintext" action="http://localhost:2000/expense" method="post" onsubmit="addUsers(event)">
-            <div class="form-floatin0g">
+        <h1>Expense Tracker App</h1>
+        <form id="my-form" class="form-control-plaintext" action="http://localhost:2000/expense" method="POST" onsubmit="addUsers(event)">
+            <div class="form-floating">
                 <label for="amount">Choose Expense amount: </label><br>
-                <input type="number" class="mr-2 mt-2 mb-2" id="amount" name="amount" placeholder="Amount in ₹"><br>
+                <input type="number" class="mr-2 mt-2 mb-2" id="expenseid" name="amount" placeholder="Amount in ₹"><br>
             </div> 
             <div class="form-floating">
                 <label for="description">Choose description: </label><br>
-                <input type="text" class="mr-2 mt-2 mb-2" id="description" name="description" placeholder="Describe"><br>
+                <input type="text" class="mr-2 mt-2 mb-2" id="desid" name="description" placeholder="Describe"><br>
             </div>
             <div class="form-floating">
                 <label for="category">Choose a category: </label><br>
-                <select id="category" name="category" class="mr-2 mt-2 mb-2">
+                <select id="listid" name="category" class="mr-2 mt-2 mb-2">
                     <option>Fuel</option>
                     <option>Food</option>
                     <option>Movie</option>
@@ -59,7 +39,7 @@
                 </select><br>
             </div>
             
-            <button class="btn btn-info mt-2">Add Expenses</button>
+            <button class="btn btn-info mt-2" type="submit">Add Expenses</button>
         </form>
         
     </div>
@@ -67,7 +47,124 @@
     <div id="dataList">
         <ul id="dataItems"></ul>
     </div>
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./script.js"></script>
+    
+    
+    <script>
+        async function addUsers(event){
+            try{
+                event.preventDefault();
+
+                const amount = document.getElementById('expenseid').value;
+                const description = document.getElementById('desid').value;
+                const category = document.getElementById('listid').value;
+
+                console.log(amount, description, category);
+                const expense = {
+                    amount: amount,
+                    description: description,
+                    category: category
+                };
+
+                console.log(expense);
+
+                //localStorage.setItem(user.description,JSON.stringify(user));
+                const res = await axios.post('http://localhost:2000/expense', expense);
+                console.log(res.data);
+                showUserOnScreen(res.data);
+
+                document.getElementById('expenseid').value = '';
+                document.getElementById('desid').value = '';
+                document.getElementById('listid').value = '';
+            } catch(error){
+                document.body.innerHTML=document.body.innerHTML+'<h4>Something Went Wrong</h4>';
+                console.log(error);
+            }
+            
+                //form.reset();
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            try{
+                const res =await axios.get('http://localhost:2000/expense');
+            
+                console.log(res.data);
+
+                for(let i=0;i<res.data.length;i++)
+                {
+                    showUserOnScreen(res.data[i]);
+                    console.log('reached', res.data[i]);
+
+            }
+            } catch (error){
+                document.body.innerHTML=document.body.innerHTML+'<h4>Something Went Wrong</h4>';
+                console.log(error);
+            }
+            
+        })
+
+        function showUserOnScreen(user){
+            let parentNode = document.getElementById('dataItems');
+
+            const childNode=`<li id=${user.id}>${user.amount}-${user.description}-${user.category}
+                                <button onclick=deleteUser('${user.id}')>Delete</button>
+                                <button onclick=editUserDetail('${user.amount}','${user.description}','${user.category}','${user.id}')>Edit</button>`;
+
+            parentNode.innerHTML = parentNode.innerHTML + childNode;
+            
+        }
+
+        async function deleteUser(userid)
+        {
+        console.log('comes');
+
+            try {
+                await axios.delete(`http://localhost:2000/expense/${userid}`);
+                console.log('axios');
+                removeFromScreen(userid);
+                console.log('complete');
+            } catch (err) {
+                document.body.innerHTML= document.body.innerHTML+"<h4>Something Went Wrong</h4>"
+            console.log(err);
+            }
+            
+                
+        } 
+        
+
+
+
+
+        function removeFromScreen(id)
+        {
+            let parent=document.getElementById('dataItems');
+            const childNodeDeleted=document.getElementById(id);
+
+            parent.removeChild(childNodeDeleted)
+        }
+
+        async function editUserDetail(userAmount, userDesc, userCategory, userId){
+            try{
+                await axios.delete(`http://localhost:2000/expense/${userId}`);
+                removeFromScreen(userId);
+
+                document.getElementById('expenseid').value = userAmount;
+                document.getElementById('desid').value = userDesc;
+                document.getElementById('listid').value = userCategory;
+            } catch(err) {
+                document.body.innerHTML += "<h4>Something went wrong</h4>";
+                console.log(err);
+            }
+        }
+
+
+
+
+
+
+
+    </script>
 </body>
 </html>

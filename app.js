@@ -1,14 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors')
-const app = express();
 const path = require('path');
 
+const app = express();
+const cors = require('cors');
 const rootDir = require('./util/path');
-const sequelize = require('./util/database');
-const dB = require('./models/expSequelize');
+
 const expenseRoutes = require('./routes/expenseRouter');
 
+const sequelize = require('./util/database');
+
+const dB = require('./models/expSequelize');
+
+//app.use(express.static('public'));
+
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(cors());
@@ -18,7 +24,7 @@ app.use('/expense', expenseRoutes);
 //const server = http.createServer(app);
 
 sequelize.sync()
-    .then((res) => {
+    .then(() => {
         var port = 2000;
         app.listen(port, ()=>{
             console.log(`port ${port} started successfully`);

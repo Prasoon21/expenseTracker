@@ -8,10 +8,10 @@ exports.getExpense = async (req,res,next)=>{
         res.json(data)
         
     } catch (error) {
-        console.log(JSON.stringify(error));
-        res.status(600).json(error)
+        console.log("Get expense is failing", JSON.stringify(error));
+        res.status(500).json({error: error})
     }
-}
+};
 
 exports.addExpense= async (req,res,next)=>
 
